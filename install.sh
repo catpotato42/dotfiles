@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-git clone https://github.com/yourusername/dotfiles.git ~/dotfiles
+git clone https://github.com/catpotato42/dotfiles.git ~/dotfiles
 mkdir -p ~/.vim
 ln -s ~/dotfiles/vim/.vimrc ~/.vimrc
 ln -s ~/dotfiles/vim/autoload ~/.vim/autoload
