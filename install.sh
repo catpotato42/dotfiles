@@ -6,7 +6,7 @@ if [ -d "$DOTFILES" ]; then
   cd "$HOME"
   rm -rf "$DOTFILES"
 fi
-git clone https://github.com/catpotato42/dotfiles.git "$DOTFILES"
+git clone git@github.com:catpotato42/dotfiles.git "$DOTFILES"
 
 # add files as "path in repo:path in $HOME"
 LINKS=(
