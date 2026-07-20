@@ -1,32 +1,18 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Maintainer:
-"       Amir Salihefendic - @amix3k
-"
-" Awesome_version:
-"       Get this config, nice color schemes and lots of plugins!
-"
-"       Install the awesome version from:
-"
-"           https://github.com/amix/vimrc
-"
-" Sections:
-"    -> General
-"    -> VIM user interface
-"    -> Colors and Fonts
-"    -> Files and backups
-"    -> Text, tab and indent related
-"    -> Visual mode related
-"    -> Moving around, tabs and buffers
-"    -> Status line
-"    -> Editing mappings
-"    -> vimgrep searching and cope displaying
-"    -> Spell checking
-"    -> Misc
-"    -> Helper functions
-"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
+" 
+" General 8G
+" VIM user interface 34G
+" Colors and Fonts 109 
+" Files, backups, and undo 145
+" Text, tab, indent 155
+" Visual mode 177
+" Moving around 188
+" Status line 253
+" Editing mappings 256
+" Spellcheck 289
+" Miscellaneous 304
+" Helper functions 320
+" 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -56,7 +42,7 @@ command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Set 7 lines to the cursor - when moving vertically using j/k
+" Set minimum 7 lines visible above and below the cursork
 set so=7
 
 " Avoid garbled characters in Chinese language windows OS
@@ -82,10 +68,10 @@ set ruler
 " Height of the command bar
 set cmdheight=1
 
-" A buffer becomes hidden when it is abandoned
+" compiled/generated files are skipped when using tab complete
 set hid
 
-" Configure backspace so it acts as it should act
+" backspace wraps, left and right wrap in normal and visual mode
 set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
 
@@ -110,8 +96,8 @@ set magic
 " Show matching brackets when text indicator is over them
 set showmatch
 
-" How many tenths of a second to blink when matching brackets
-set mat=2
+" How many tenths of a second to blink on the matching bracket when closing a pair
+set mat=0
 
 " No annoying sound on errors
 set noerrorbells
@@ -127,6 +113,9 @@ endif
 " Add a bit extra margin to the left
 set foldcolumn=1
 
+" Add relative line numbers except on current line
+set number
+set relativenumber
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
@@ -174,12 +163,12 @@ set noswapfile
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Text, tab and indent related
+" => Text, tab and indent 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Use spaces instead of tabs
 set expandtab
 
-" Be smart when using tabs ;)
+" Be smart when using tabs
 set smarttab
 
 " 1 tab == 4 spaces
@@ -196,7 +185,7 @@ set wrap "Wrap lines
 
 
 """"""""""""""""""""""""""""""
-" => Visual mode related
+" => Visual mode 
 """"""""""""""""""""""""""""""
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann
@@ -256,7 +245,7 @@ try
 catch
 endtry
 
-" Return to last edit position when opening files (You want this!)
+" Return to last edit position when opening files
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 
