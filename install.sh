@@ -1,27 +1,24 @@
 #!/bin/bash
 set -e
-
 DOTFILES=~/dotfiles
 
 if [ -d "$DOTFILES" ]; then
+  cd "$HOME"
   rm -rf "$DOTFILES"
 fi
 git clone https://github.com/catpotato42/dotfiles.git "$DOTFILES"
 
-# List every dotfile/dotdir you want linked, relative to the repo root
+# add files as "path in repo:path in $HOME"
 LINKS=(
-  ".vimrc"
-  ".vim/autoload"
-  ".vim/colors"
-  ".vim/doc"
-  ".bashrc"
-  ".gitconfig"
-  ".tmux.conf"
+  "vim/.vimrc:.vimrc"
+  "vim/autoload:.vim/autoload"
+  "vim/colors:.vim/colors"
+  "vim/doc:.vim/doc"
 )
 
-for item in "${LINKS[@]}"; do
-  src="$DOTFILES/$item"
-  dest="$HOME/$item"
+for pair in "${LINKS[@]}"; do
+  src="$DOTFILES/${pair%%:*}"
+  dest="$HOME/${pair##*:}"
 
   mkdir -p "$(dirname "$dest")"
 
@@ -30,7 +27,7 @@ for item in "${LINKS[@]}"; do
   fi
 
   ln -s "$src" "$dest"
-  echo "Linked $item"
+  echo "Linked ${pair##*:}"
 done
 
-echo "dotfiles copied successfully"
+echo "dotfiles installed successfully"
