@@ -14,6 +14,7 @@ LINKS=(
   "vim/autoload:.vim/autoload"
   "vim/colors:.vim/colors"
   "vim/doc:.vim/doc"
+  "bash/.bashrc:.bashrc"
 )
 
 for pair in "${LINKS[@]}"; do
