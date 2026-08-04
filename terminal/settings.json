@@ -1,0 +1,99 @@
+{
+    "$help": "https://aka.ms/terminal-documentation",
+    "$schema": "https://aka.ms/terminal-profiles-schema",
+    "actions": [],
+    "copyFormatting": "none",
+    "copyOnSelect": false,
+    "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+    "keybindings": 
+    [
+        {
+            "id": "Terminal.CopyToClipboard",
+            "keys": "ctrl+c"
+        },
+        {
+            "id": "Terminal.PasteFromClipboard",
+            "keys": "ctrl+v"
+        },
+        {
+            "id": "Terminal.DuplicatePaneAuto",
+            "keys": "alt+shift+d"
+        }
+    ],
+    "newTabMenu": 
+    [
+        {
+            "type": "remainingProfiles"
+        }
+    ],
+    "profiles": 
+    {
+        "defaults": {},
+        "list": 
+        [
+            {
+                "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "hidden": false,
+                "name": "Windows PowerShell"
+            },
+            {
+                "commandline": "%SystemRoot%\\System32\\cmd.exe",
+                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                "hidden": false,
+                "name": "Command Prompt"
+            },
+            {
+                "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+                "hidden": false,
+                "name": "Azure Cloud Shell",
+                "source": "Windows.Terminal.Azure"
+            },
+            {
+                "guid": "{463bab50-cf1b-508b-9b6f-201a7ee7f053}",
+                "hidden": false,
+                "name": "Developer Command Prompt for VS 18",
+                "source": "Windows.Terminal.VisualStudio"
+            },
+            {
+                "guid": "{3fdd84cd-5c5e-5711-beb1-43093763e173}",
+                "hidden": false,
+                "name": "Developer PowerShell for VS 18",
+                "source": "Windows.Terminal.VisualStudio"
+            },
+            {
+                "guid": "{f7bd08db-dc89-58ed-b7f7-0d2a68b04f31}",
+                "hidden": false,
+                "name": "Ubuntu",
+                "source": "Microsoft.WSL",
+                "colorScheme": "Everforest"
+            }
+        ]
+    },
+    "schemes": [
+        {
+            "name": "Everforest",
+            "background": "#1A1A1A",
+            "foreground": "#D3C6AA",
+            "black": "#1A1A1A",
+            "red": "#E67E80",
+            "green": "#A7C080",
+            "yellow": "#DBBC7F",
+            "blue": "#7FBBB3",
+            "purple": "#D699B6",
+            "cyan": "#83C092",
+            "white": "#D3C6AA",
+            "brightBlack": "#4B565C",
+            "brightRed": "#E67E80",
+            "brightGreen": "#A7C080",
+            "brightYellow": "#DBBC7F",
+            "brightBlue": "#7FBBB3",
+            "brightPurple": "#D699B6",
+            "brightCyan": "#83C092",
+            "brightWhite": "#D3C6AA",
+            "selectionBackground": "#4B565C",
+            "cursorColor": "#D3C6AA"
+        }
+    ],
+    "themes": []
+}
