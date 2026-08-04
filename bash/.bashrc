@@ -1,1 +1,1 @@
-export LS_COLORS="di=38;2;230;126;128:$LS_COLORS"
+export PS1='\[\e[38;2;230;126;128m\]\w\[\e[0m\]\$ '
