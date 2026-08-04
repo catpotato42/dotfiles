@@ -31,4 +31,4 @@ for pair in "${LINKS[@]}"; do
   echo "Linked ${pair##*:}"
 done
 
-echo "dotfiles installed successfully"
+sed -i '/"vim\/doc:.vim\/doc"/a\  "bash/.bashrc:.bashrc"' install.sh
