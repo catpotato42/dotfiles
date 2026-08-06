@@ -49,6 +49,7 @@ LINKS=(
   "vim/colors:.vim/colors"
   "vim/doc:.vim/doc"
   "bash/.bashrc:.bashrc"
+  ".gitconfig:.gitconfig"
 )
 
 for pair in "${LINKS[@]}"; do
