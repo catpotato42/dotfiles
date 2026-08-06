@@ -9,3 +9,7 @@ export LESS_TERMCAP_us=$'\e[38;2;131;192;146m'
 export LESS_TERMCAP_me=$'\e[0m'
 export LESS_TERMCAP_ue=$'\e[0m'
 trap 'printf "\e[0m"' DEBUG
+
+if command -v vimx >/dev/null 2>&1; then
+  alias vim='vimx'
+fi
