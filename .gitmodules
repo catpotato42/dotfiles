@@ -1,0 +1,3 @@
+[submodule "vim/pack/plugins/start/lsp"]
+	path = vim/pack/plugins/start/lsp
+	url = https://github.com/yegappan/lsp

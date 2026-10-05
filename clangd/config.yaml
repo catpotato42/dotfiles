@@ -1,0 +1,34 @@
+# Fallback compile flags, used only for translation units that have no entry in
+# a compile_commands.json. A real compile database always wins over this file.
+#
+# Generate one per project with either:
+#   cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON && ln -s build/compile_commands.json .
+#   bear -- make
+# Or drop a compile_flags.txt in the project root, one flag per line.
+
+CompileFlags:
+  Add: [-Wall, -Wextra]
+
+Diagnostics:
+  UnusedIncludes: Strict
+  ClangTidy:
+    Add: [bugprone-*, performance-*, modernize-*, readability-*]
+    # Noisy or opinionated checks that fire constantly on ordinary code
+    Remove:
+      - modernize-use-trailing-return-type
+      - readability-identifier-length
+      - readability-magic-numbers
+      - readability-braces-around-statements
+
+---
+# .h is treated as C++ here because that matches how this machine is used.
+If:
+  PathMatch: [.*\.cpp, .*\.cxx, .*\.cc, .*\.hpp, .*\.hh, .*\.hxx, .*\.h]
+CompileFlags:
+  Add: [-std=c++23]
+
+---
+If:
+  PathMatch: [.*\.c]
+CompileFlags:
+  Add: [-std=c17]

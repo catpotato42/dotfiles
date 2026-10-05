@@ -1,135 +1,79 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 
-" General 8G
-" VIM user interface 34G
-" Colors and Fonts 109 
-" Files, backups, and undo 145
-" Text, tab, indent 155
-" Visual mode 177
-" Moving around 188
-" Status line 253
-" Editing mappings 256
-" Spellcheck 289
-" Miscellaneous 304
-" Helper functions 320
-" 
+" General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => General
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Sets how many lines of history VIM has to remember
 set history=500
 
-" Enable filetype plugins
 filetype plugin on
 filetype indent on
 
-" Set to auto read when a file is changed from the outside
+" Auto read when a file is changed from the outside
 set autoread
 au FocusGained,BufEnter * silent! checktime
 
-" With a map leader it's possible to do extra key combinations
-" like <leader>w saves the current file
-let mapleader = ","
-
-" Fast saving
-nmap <leader>w :w!<cr>
-
-" :W sudo saves the file
-" (useful for handling the permission-denied error)
-command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
+" Space is the leader: layout independent, and a thumb press on any keyboard.
+" On Programmer Dvorak the usual ',' sits where QWERTY 'w' is, which is worse.
+let mapleader = " "
+nnoremap <Space> <Nop>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => VIM user interface
+" VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Set minimum 7 lines visible above and below the cursork
+" Keep 7 lines visible above and below the cursor
 set so=7
 
-" Avoid garbled characters in Chinese language windows OS
-let $LANG='en'
-set langmenu=en
-source $VIMRUNTIME/delmenu.vim
-source $VIMRUNTIME/menu.vim
-
-" Turn on the Wild menu
+" Command-line completion: longest common prefix first, then a popup menu.
+" This is what makes ":b <fragment><Tab>" a usable buffer picker.
 set wildmenu
+set wildmode=longest:full,full
+set wildoptions=pum
+set wildcharm=<C-z>
 
-" Ignore compiled files
-set wildignore=*.o,*~,*.pyc
-if has("win16") || has("win32")
-    set wildignore+=.git\*,.hg\*,.svn\*
-else
-    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
-endif
+" Ignore compiled files in wildcard expansion
+set wildignore=*.o,*.obj,*.a,*.so,*.d,*~,*.pyc
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/__pycache__/*,*/build/*
 
 " Always show current position
 set ruler
-
-" Height of the command bar
 set cmdheight=1
 
-" compiled/generated files are skipped when using tab complete
-set hid
+" Keep modified buffers loaded when they are not displayed. This is the
+" setting that makes working out of buffers instead of :q/:e possible.
+set hidden
 
-" backspace wraps, left and right wrap in normal and visual mode
+" Let backspace delete over autoindent, line breaks and the insert start point
 set backspace=eol,start,indent
+
+" Let h/l and the arrow keys move across line boundaries
 set whichwrap+=<,>,h,l
 
-" Ignore case when searching
+" Case-insensitive search unless the pattern contains a capital
 set ignorecase
-
-" When searching try to be smart about cases
 set smartcase
 
-" Highlight search results
 set hlsearch
-
-" Makes search act like search in modern browsers
 set incsearch
 
-" Don't redraw while executing macros (good performance config)
+" Don't redraw while executing macros
 set lazyredraw
 
-" For regular expressions turn magic on
 set magic
 
-" Show matching brackets when text indicator is over them
-set showmatch
+" No bells of any kind
+set belloff=all
 
-" How many tenths of a second to blink on the matching bracket when closing a pair
-set mat=0
+" Always reserve the sign column so text does not shift when a diagnostic
+" sign appears or clears
+set signcolumn=yes
 
-" No annoying sound on errors
-set noerrorbells
-set novisualbell
-set t_vb=
-set tm=500
-
-" Properly disable sound on errors on MacVim
-if has("gui_macvim")
-    autocmd GUIEnter * set vb t_vb=
-endif
-
-" Add a bit extra margin to the left
-set foldcolumn=1
-
-" Add relative line numbers except on current line
 set number
 set relativenumber
 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Colors and Fonts
+" Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Enable syntax highlighting
 syntax enable
-
-" Set regular expression engine automatically
-set regexpengine=0
-
-" Enable 256 colors palette in Gnome Terminal
-if $COLORTERM == 'gnome-terminal'
-    set t_Co=256
-endif
 
 if has('termguicolors')
   set termguicolors
@@ -138,147 +82,130 @@ set background=dark
 let g:everforest_colors_override = {'bg0': ['#1a1a1a', '234'], 'bg1' : ['#232323', '235']}
 colorscheme everforest
 
-" Set extra options when running in GUI mode
-if has("gui_running")
-    set guioptions-=T
-    set guioptions-=e
-    set t_Co=256
-    set guitablabel=%M\ %t
-endif
-
-" Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
-
-" Use Unix as the standard file type
 set ffs=unix,dos,mac
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Files, backups and undo
+" Files, backups and undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Turn backup off, since most stuff is in SVN, git etc. anyway...
 set nobackup
 set nowb
 set noswapfile
 
+" The only recovery path left with no swap and no backup. Undo history
+" survives closing a file. install.sh creates ~/.vim/undo.
+set undofile
+set undodir=~/.vim/undo
+set undolevels=1000
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Text, tab and indent 
+" Text, tab and indent
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Use spaces instead of tabs
 set expandtab
-
-" Be smart when using tabs
 set smarttab
-
-" 1 tab == 4 spaces
 set shiftwidth=4
 set tabstop=4
-
-" Linebreak on 500 characters
-set lbr
-set tw=500
 
 set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
 
+" Break wrapped lines at word boundaries rather than mid-word
+set lbr
 
-""""""""""""""""""""""""""""""
-" => Visual mode 
-""""""""""""""""""""""""""""""
-" Visual mode pressing * or # searches for the current selection
-" Super useful! From an idea by Michael Naumann
-vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
-vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
+" Don't carry the comment leader onto a new line opened with o/O
+autocmd FileType * setlocal formatoptions-=o
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Moving around, tabs, windows and buffers
+" Completion
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-map <space> /
-map <C-space> ?
+" Popup menu even for a single match, don't insert until chosen
+set completeopt=menuone,noselect,popup
 
-" Disable highlight when <leader><cr> is pressed
-map <silent> <leader><cr> :noh<cr>
+" Cap popup height
+set pumheight=12
 
-" Smart way to move between windows
+" Fall back to syntax-based omni completion for filetypes without one.
+" C/C++ and Python get a real language server instead, see after/plugin/lsp.vim
+autocmd FileType * if &omnifunc ==# '' | setlocal omnifunc=syntaxcomplete#Complete | endif
+
+" Tab accepts a match outright instead of cycling. The LSP plugin hard-codes
+" 'noselect' in its buffers, so nothing is highlighted on the first press and
+" Tab has to select the first match before taking it. pumvisible() is false
+" with no popup open, so Tab still indents normally.
+function! TabComplete() abort
+    if !pumvisible()
+        return "\<Tab>"
+    endif
+    return complete_info(['selected']).selected == -1 ? "\<C-n>\<C-y>" : "\<C-y>"
+endfunction
+
+inoremap <expr> <Tab>   TabComplete()
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" Don't spam "match 1 of 12" in the message line
+set shortmess+=c
+
+" Diagnostics feel stale above this; it also drives CursorHold
+set updatetime=300
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Moving around, windows and buffers
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Visual mode * and # search for the current selection
+vnoremap <silent> * y:let @/ = '\V' . escape(@", '\/')<CR>:set hlsearch<CR>n
+vnoremap <silent> # y:let @/ = '\V' . escape(@", '\/')<CR>:set hlsearch<CR>N
+
+" Clear search highlight
+nnoremap <silent> <leader><CR> :nohlsearch<CR>
+
+" Move between windows
 map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 
-" Close the current buffer
-map <leader>bd :Bclose<cr>:tabclose<cr>gT
+" Buffers. '[' and ']' are unshifted on the number row in Programmer Dvorak,
+" which makes bracket pairs the cheapest prefix available on this layout.
+nnoremap <silent> ]b :bnext<CR>
+nnoremap <silent> [b :bprevious<CR>
+nnoremap <silent> ]B :blast<CR>
+nnoremap <silent> [B :bfirst<CR>
 
-" Close all the buffers
-map <leader>ba :bufdo bd<cr>
+" Jump to a buffer by name fragment; <C-z> opens the wildmenu popup
+nnoremap <leader>b :buffer <C-z>
+nnoremap <leader>l :ls<CR>
 
-map <leader>l :bnext<cr>
-map <leader>h :bprevious<cr>
+" Toggle to the alternate buffer, the buffer-workflow equivalent of Alt-Tab
+nnoremap <silent> <leader><leader> :buffer #<CR>
 
-" Useful mappings for managing tabs
-map <leader>tn :tabnew<cr>
-map <leader>to :tabonly<cr>
-map <leader>tc :tabclose<cr>
-map <leader>tm :tabmove
-map <leader>t<leader> :tabnext<cr>
+" Close the current buffer without closing its window
+nnoremap <silent> <leader>d :Bclose<CR>
 
-" Let 'tl' toggle between this and the last accessed tab
-let g:lasttab = 1
-nmap <leader>tl :exe "tabn ".g:lasttab<CR>
-au TabLeave * let g:lasttab = tabpagenr()
-
-
-" Opens a new tab with the current buffer's path
-" Super useful when editing files in the same directory
-map <leader>te :tabedit <C-r>=escape(expand("%:p:h"), " ")<cr>/
-
-" Switch CWD to the directory of the open buffer
-map <leader>cd :cd %:p:h<cr>:pwd<cr>
-
-" Specify the behavior when switching between buffers
-try
-  set switchbuf=useopen,usetab,newtab
-  set stal=2
-catch
-endtry
+set switchbuf=useopen,usetab
 
 " Return to last edit position when opening files
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 
-""""""""""""""""""""""""""""""
-" => Status line
-""""""""""""""""""""""""""""""
-" Always show the status line
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Status line
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set laststatus=2
 
-" Format the status line
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
+" Short enough to stay readable in a vertical split, with room on the right
+" for the LSP diagnostic counts. Filename tail only, not the full path.
+set statusline=\ %{HasPaste()}%t\ %m%r%h%w%=%#ErrorMsg#%{LspDiagStatus()}%*%y\ \ %l:%c\ \ %P
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Editing mappings
+" Editing mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Remap VIM 0 to first non-blank character
-map 0 ^
-
-" Move a line of text using ALT+[jk] or Command+[jk] on mac
-nmap <M-j> mz:m+<cr>`z
-nmap <M-k> mz:m-2<cr>`z
-vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
-vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
-
-if has("mac") || has("macunix")
-  nmap <D-j> <M-j>
-  nmap <D-k> <M-k>
-  vmap <D-j> <M-j>
-  vmap <D-k> <M-k>
-endif
-
-" Delete trailing white space on save, useful for some filetypes ;)
+" Delete trailing whitespace on save
 fun! CleanExtraSpaces()
     let save_cursor = getpos(".")
     let old_query = getreg('/')
@@ -287,42 +214,18 @@ fun! CleanExtraSpaces()
     call setreg('/', old_query)
 endfun
 
-if has("autocmd")
-    autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
-endif
+autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee,*.c,*.cc,*.cpp,*.cxx,*.h,*.hh,*.hpp,*.hxx,*.vim,.vimrc,vimrc,*.md,*.json,*.yml,*.yaml call CleanExtraSpaces()
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Spell checking
+" Spell checking
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Pressing ,ss will toggle and untoggle spell checking
-map <leader>ss :setlocal spell!<cr>
-
-" Shortcuts using <leader>
-map <leader>sn ]s
-map <leader>sp [s
-map <leader>sa zg
-map <leader>s? z=
+" ]s [s zg z= are the built-ins; this just toggles the mode
+nnoremap <silent> <leader>s :setlocal spell!<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Misc
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Remove the Windows ^M - when the encodings gets messed up
-noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
-
-" Quickly open a buffer for scribble
-map <leader>q :e ~/buffer<cr>
-
-" Quickly open a markdown buffer for scribble
-map <leader>x :e ~/buffer.md<cr>
-
-" Toggle paste mode on and off
-map <leader>pp :setlocal paste!<cr>
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Helper functions
+" Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Returns true if paste mode is enabled
 function! HasPaste()
@@ -332,7 +235,16 @@ function! HasPaste()
     return ''
 endfunction
 
-" Don't close window, when deleting a buffer
+" Error and warning counts for the status line, e.g. "E3 W1 ".
+function! LspDiagStatus() abort
+    let c = lsp#lsp#ErrorCount()
+    let s = ''
+    if c.Error > 0 | let s .= 'E' . c.Error . ' ' | endif
+    if c.Warn > 0  | let s .= 'W' . c.Warn . ' ' | endif
+    return s
+endfunction
+
+" Don't close the window when deleting a buffer
 command! Bclose call <SID>BufcloseCloseIt()
 function! <SID>BufcloseCloseIt()
     let l:currentBufNum = bufnr("%")
@@ -351,25 +263,4 @@ function! <SID>BufcloseCloseIt()
     if buflisted(l:currentBufNum)
         execute("bdelete! ".l:currentBufNum)
     endif
-endfunction
-
-function! CmdLine(str)
-    call feedkeys(":" . a:str)
-endfunction
-
-function! VisualSelection(direction, extra_filter) range
-    let l:saved_reg = @"
-    execute "normal! vgvy"
-
-    let l:pattern = escape(@", "\\/.*'$^~[]")
-    let l:pattern = substitute(l:pattern, "\n$", "", "")
-
-    if a:direction == 'gv'
-        call CmdLine("Ack '" . l:pattern . "' " )
-    elseif a:direction == 'replace'
-        call CmdLine("%s" . '/'. l:pattern . '/')
-    endif
-
-    let @/ = l:pattern
-    let @" = l:saved_reg
 endfunction

@@ -5,5 +5,5 @@
 	insteadOf = https://github.com/
 [color]
 	ui = auto
-[core]    
-    editor = vim
+[core]
+	editor = vim
